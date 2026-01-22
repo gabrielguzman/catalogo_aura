@@ -1,0 +1,314 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura de Jazmín | Boutique</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* PALETA: AURA DE JAZMÍN */
+            --color-pink: #E6A4B4;       /* Rosado Suave */
+            --color-white: #FFFFFF;      /* Blanco Puro */
+            --color-blue: #D3E0EA;       /* Celeste Aire */
+            --color-brown: #5D4037;      /* Marrón Tierra */
+            --color-black: #1A1A1A;      /* Negro Sofisticado */
+            --color-bg: #FDFBF7;         /* Fondo Crema (Pétalo) */
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-black);
+        }
+
+        h1, h2, h3, h4, .navbar-brand {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: var(--color-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            color: var(--color-brown) !important;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 2px; /* Espaciado elegante */
+            text-transform: uppercase;
+        }
+
+        /* HERO / PORTADA */
+        .hero {
+            /* Imagen de fondo suave y floral */
+            background: linear-gradient(to right, rgba(93, 64, 55, 0.7), rgba(230, 164, 180, 0.6)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto parallax */
+            color: var(--color-white);
+            padding: 140px 0;
+            text-align: center;
+        }
+        
+        /* BOTONES */
+        .btn-custom {
+            background-color: var(--color-pink);
+            color: var(--color-white);
+            border-radius: 0;
+            padding: 12px 35px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border: 1px solid var(--color-pink);
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background-color: var(--color-brown);
+            border-color: var(--color-brown);
+            color: var(--color-white);
+        }
+
+        /* BARRA DE BENEFICIOS */
+        .benefits-bar {
+            background-color: var(--color-blue);
+            padding: 25px 0;
+            color: var(--color-brown);
+            border-bottom: 4px solid var(--color-pink); /* Detalle de color */
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* TARJETAS DE PRODUCTO */
+        .product-card {
+            background: var(--color-white);
+            border: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(230, 164, 180, 0.3); /* Sombra rosada suave */
+        }
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 400px; /* Más altas para lucir la ropa */
+        }
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .product-card:hover .card-img-top {
+            transform: scale(1.08);
+        }
+        .price {
+            color: var(--color-brown);
+            font-weight: 700;
+            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* FOOTER */
+        footer {
+            background-color: var(--color-brown);
+            color: var(--color-pink);
+            padding: 70px 0 30px;
+        }
+        footer h5 {
+            color: var(--color-white);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+        footer a { color: var(--color-blue); text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--color-pink); }
+
+        /* WHATSAPP FLOTANTE */
+        .float-wa {
+            position: fixed;
+            width: 65px;
+            height: 65px;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 32px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        .float-wa:hover {
+            transform: scale(1.1) rotate(10deg);
+            color: white;
+        }
+
+        /* FILTROS */
+        .cat-pill {
+            border: 1px solid var(--color-brown);
+            color: var(--color-brown);
+            padding: 8px 25px;
+            margin: 5px;
+            border-radius: 0; /* Cuadrados para elegancia */
+            text-decoration: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .cat-pill:hover, .cat-pill.active {
+            background-color: var(--color-brown);
+            color: var(--color-white);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-spa me-2" style="color: var(--color-pink);"></i> 
+                AURA DE JAZMÍN
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Colección</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3 fst-italic">Viste tu Esencia</h1>
+            <p class="lead mb-5">Moda con aroma a libertad. Descubre prendas que resaltan tu aura natural.</p>
+            <a href="#catalogo" class="btn btn-custom btn-lg">VER CATÁLOGO</a>
+        </div>
+    </section>
+
+    <div class="benefits-bar">
+        <div class="container">
+            <div class="row text-center g-3">
+                <div class="col-md-4 benefit-item">
+                    <i class="fas fa-truck text-dark"></i> Envíos a todo el país
+                </div>
+                <div class="col-md-4 benefit-item">
+                    <i class="far fa-star text-dark"></i> Calidad Premium
+                </div>
+                <div class="col-md-4 benefit-item">
+                    <i class="fas fa-heart text-dark"></i> Hecho con amor
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5" id="catalogo">
+        
+        <div class="text-center mb-5">
+            <span class="text-muted text-uppercase small ls-2">Temporada 2024</span>
+            <h2 class="display-5 mt-2">Nuestra Selección</h2>
+            <div class="d-flex justify-content-center mt-4">
+                <a href="#" class="cat-pill active">Todo</a>
+                <a href="#" class="cat-pill">Vestidos</a>
+                <a href="#" class="cat-pill">Blusas</a>
+                <a href="#" class="cat-pill">Sastrería</a>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+            {% for producto in productos %}
+            <div class="col">
+                <div class="product-card h-100">
+                    <div class="card-img-wrapper">
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Sin foto">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body text-center pt-4 pb-4 px-3">
+                        <h4 class="card-title mb-2">{{ producto.nombre }}</h4>
+                        <p class="text-muted small mb-3">{{ producto.descripcion|truncatechars:60 }}</p>
+                        <div class="price mb-3">${{ producto.precio }}</div>
+                        
+                        <a href="https://wa.me/5491100000000?text=Hola Aura de Jazmín! 🌸 Me enamoré del producto: {{ producto.nombre }}" 
+                           class="btn btn-custom w-100" target="_blank">
+                           LO QUIERO
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h4 class="text-muted">Aún estamos preparando las prendas...</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>AURA DE JAZMÍN</h5>
+                    <p class="small text-white-50">
+                        Nuestra marca nace de la inspiración floral y la elegancia atemporal. 
+                        Prendas pensadas para mujeres que dejan huella.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>AYUDA</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Cómo Comprar</a></li>
+                        <li><a href="#">Envíos y Devoluciones</a></li>
+                        <li><a href="#">Tabla de Talles</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>SÍGUENOS</h5>
+                    <div class="fs-4">
+                        <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5 border-top border-secondary pt-4">
+                <small class="text-white-50">&copy; 2026 Aura de Jazmín. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5491100000000?text=Hola Aura de Jazmín!" class="float-wa" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

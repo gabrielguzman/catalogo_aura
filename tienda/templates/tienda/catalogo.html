@@ -13,11 +13,10 @@
 
     <style>
         :root {
-            /* --- PALETA DE COLORES --- */
-            --color-rosa: #E6A4B4;       /* Rosado Viejo */
-            --color-celeste: #D3E0EA;    /* Celeste Pastel */
-            --color-marron: #5D4037;     /* Marrón Café */
-            --color-crema: #FDFBF7;      /* Fondo Crema */
+            --color-rosa: #E6A4B4;
+            --color-celeste: #D3E0EA;
+            --color-marron: #5D4037;
+            --color-crema: #FDFBF7;
             --color-blanco: #FFFFFF;
             --color-negro: #1A1A1A;
         }
@@ -29,12 +28,9 @@
             overflow-x: hidden;
         }
 
-        /* Tipografía para Títulos */
-        h1, h2, h3, h4, .fuente-serif {
-            font-family: 'Cormorant Garamond', serif;
-        }
+        h1, h2, h3, h4, .fuente-serif { font-family: 'Cormorant Garamond', serif; }
 
-        /* --- NAVBAR --- */
+        /* NAVBAR */
         .navbar {
             background-color: var(--color-crema);
             padding: 15px 0;
@@ -59,14 +55,12 @@
             margin: 0 10px;
         }
 
-        /* --- HERO SECTION (PORTADA) --- */
+        /* HERO */
         .hero-wrap {
             display: flex;
             flex-wrap: wrap;
             min-height: 85vh;
         }
-        
-        /* Mitad Izquierda: Texto sobre fondo Celeste */
         .hero-text {
             flex: 1;
             padding: 50px;
@@ -76,23 +70,18 @@
             background-color: var(--color-celeste);
             min-width: 320px;
         }
-        
-        /* Mitad Derecha: Imagen Perchero */
         .hero-image {
             flex: 1;
             background: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
             min-width: 320px;
             min-height: 400px;
         }
-
         .titulo-grande {
             font-size: 4.5rem;
             line-height: 0.9;
             color: var(--color-marron);
             margin-bottom: 25px;
         }
-
-        /* Botón Principal "Ver Productos" */
         .btn-aura {
             display: inline-block;
             padding: 15px 45px;
@@ -113,26 +102,51 @@
             color: var(--color-blanco);
         }
 
-        /* --- BENEFICIOS --- */
-        .features-bar {
+        /* --- BENEFICIOS MEJORADOS --- */
+        .features-wrapper {
             background-color: var(--color-blanco);
-            padding: 50px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--color-rosa);
-            margin-bottom: 15px;
-        }
-        .feature-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--color-marron);
-            font-weight: 700;
+            border-radius: 20px; /* Bordes redondeados */
+            /* ESTA ES LA SOMBRA QUE PEDISTE (Suave y elegante) */
+            box-shadow: 0 15px 40px rgba(93, 64, 55, 0.08); 
+            position: relative;
+            z-index: 10;
         }
 
-        /* --- FILTROS --- */
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(230, 164, 180, 0.15); /* Rosado muy suave */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-marron); /* Icono Marrón */
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .features-wrapper:hover .icon-circle {
+            transform: scale(1.1); /* Efecto al pasar el mouse por la caja */
+            background-color: var(--color-rosa);
+            color: white;
+        }
+
+        .feature-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--color-marron);
+            font-size: 1.1rem;
+        }
+
+        /* Líneas divisorias solo en pantallas grandes */
+        @media (min-width: 768px) {
+            .border-start-md {
+                border-left: 1px solid rgba(0,0,0,0.05);
+            }
+        }
+
+        /* FILTROS */
         .filters-area {
             padding: 60px 0 30px;
             text-align: center;
@@ -150,13 +164,12 @@
             text-decoration: none;
             cursor: pointer;
         }
-        /* Botón Activo o Hover */
         .filter-btn.active, .filter-btn:hover {
             color: var(--color-marron);
             border-bottom: 2px solid var(--color-rosa);
         }
 
-        /* --- TARJETAS DE PRODUCTO --- */
+        /* CARDS */
         .product-card {
             border: none;
             background: transparent;
@@ -169,7 +182,8 @@
             position: relative;
             overflow: hidden;
             background-color: #f0f0f0;
-            aspect-ratio: 3/4; /* Formato vertical */
+            aspect-ratio: 3/4;
+            cursor: pointer;
         }
         .card-img-top {
             width: 100%;
@@ -191,16 +205,8 @@
             font-size: 1.1rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .card-body {
-            padding: 20px 0;
-            text-align: center;
-        }
-        .card-title {
-            font-size: 1.2rem;
-            color: var(--color-marron);
-            margin-bottom: 8px;
-        }
+        .card-body { padding: 20px 0; text-align: center; }
+        .card-title { font-size: 1.2rem; color: var(--color-marron); margin-bottom: 8px; }
         .btn-shop-sm {
             color: var(--color-negro);
             font-size: 0.75rem;
@@ -211,12 +217,9 @@
             padding-bottom: 2px;
             transition: 0.3s;
         }
-        .btn-shop-sm:hover {
-            color: var(--color-rosa);
-            border-color: var(--color-rosa);
-        }
+        .btn-shop-sm:hover { color: var(--color-rosa); border-color: var(--color-rosa); }
 
-        /* --- NEWSLETTER --- */
+        /* NEWSLETTER */
         .newsletter-section {
             background-color: var(--color-rosa);
             padding: 80px 0;
@@ -242,34 +245,28 @@
             margin-top: 10px;
         }
 
-        /* --- FOOTER --- */
+        /* FOOTER */
         footer {
             background-color: var(--color-marron);
             color: var(--color-crema);
             padding: 70px 0 30px;
             font-size: 0.9rem;
         }
-        footer h5 {
-            color: var(--color-rosa);
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            font-size: 1.2rem;
-        }
+        footer h5 { color: var(--color-rosa); margin-bottom: 20px; letter-spacing: 1px; font-size: 1.2rem; }
         footer a { color: var(--color-celeste); text-decoration: none; transition: 0.3s; }
         footer a:hover { color: var(--color-rosa); }
-        
-        /* --- WHATSAPP FLOTANTE (ANIMADO) --- */
+
+        /* WHATSAPP */
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-
         .wa-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #25D366; /* Verde Oficial */
+            background-color: #25D366;
             color: white;
             width: 65px;
             height: 65px;
@@ -284,14 +281,8 @@
             text-decoration: none;
             animation: pulse-green 2s infinite;
         }
+        .wa-float:hover { transform: scale(1.1); color: white; background-color: #128C7E; }
 
-        .wa-float:hover {
-            transform: scale(1.1);
-            color: white;
-            background-color: #128C7E;
-        }
-
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .hero-wrap { flex-direction: column-reverse; } 
             .hero-text { padding: 40px 20px; text-align: center; align-items: center; }
@@ -310,16 +301,15 @@
                 <i class="fas fa-spa me-2" style="color: var(--color-rosa);"></i>
                 Aura de Jazmín
             </a>
-            
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
                 <i class="fas fa-bars" style="color: var(--color-marron);"></i>
             </button>
-
             <div class="collapse navbar-collapse justify-content-end" id="navContent">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Novedades</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#">Novedades</a></li> -->
                     <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nostoros</a></li>
                 </ul>
             </div>
         </div>
@@ -331,26 +321,49 @@
                 <h1 class="titulo-grande fuente-serif">Tu Estilo, <br><em>Tu Aura</em></h1>
                 <a href="#catalogo" class="btn-aura">Ver Productos</a>
             </div>
-            
             <div class="hero-image" data-aos="fade-left"></div>
         </div>
     </div>
 
-    <div class="features-bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 feature-box" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-truck feature-icon"></i>
-                    <div class="feature-title">Envíos a todo el país</div>
+    <div class="container mt-5">
+        <form action="{% url 'catalogo' %}" method="GET" class="d-flex justify-content-center">
+            <div class="input-group" style="max-width: 500px;">
+                <input type="text" name="q" class="form-control border-end-0" placeholder="¿Qué estás buscando? (Ej: Vestido lino)" style="border-color: var(--color-marron); padding: 12px;">
+                <button class="btn" type="submit" style="background-color: var(--color-marron); color: white; border-radius: 0 5px 5px 0;">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="features-wrapper p-4 p-md-5" data-aos="fade-up">
+            <div class="row g-4 text-center">
+                
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <div class="icon-circle mb-3">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h5 class="feature-title mb-1">Envíos a todo el país</h5>
+                    <p class="text-muted small mb-0">Recibí tu pedido en la puerta de tu casa.</p>
                 </div>
-                <div class="col-md-4 feature-box" data-aos="fade-up" data-aos-delay="200">
-                    <i class="far fa-credit-card feature-icon"></i>
-                    <div class="feature-title">3 Cuotas sin interés</div>
+
+                <div class="col-md-4 d-flex flex-column align-items-center border-start-md">
+                    <div class="icon-circle mb-3">
+                        <i class="far fa-credit-card"></i>
+                    </div>
+                    <h5 class="feature-title mb-1">3 Cuotas sin interés</h5>
+                    <p class="text-muted small mb-0">Con todas las tarjetas bancarias.</p>
                 </div>
-                <div class="col-md-4 feature-box" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fas fa-gem feature-icon"></i>
-                    <div class="feature-title">Calidad Premium</div>
+
+                <div class="col-md-4 d-flex flex-column align-items-center border-start-md">
+                    <div class="icon-circle mb-3">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h5 class="feature-title mb-1">Calidad Premium</h5>
+                    <p class="text-muted small mb-0">Telas seleccionadas y diseño exclusivo.</p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -370,25 +383,33 @@
             {% for producto in productos %}
             <div class="col" data-aos="fade-up" data-aos-duration="1000">
                 <div class="product-card">
-                    <a href="https://wa.me/5491100000000?text=Hola Aura! Me interesa el producto: {{ producto.nombre }}" style="text-decoration: none;">
-                        <div class="card-img-wrap">
-                            <span class="price-badge">${{ producto.precio }}</span>
-                            {% if producto.imagen %}
-                                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
-                            {% else %}
-                                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="card-img-top">
-                            {% endif %}
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title fuente-serif">{{ producto.nombre }}</h3>
-                            <span class="btn-shop-sm">Comprar ahora</span>
-                        </div>
-                    </a>
+                    
+                    <div class="card-img-wrap" data-bs-toggle="modal" data-bs-target="#modalProducto{{ producto.id }}">
+                        <span class="price-badge">${{ producto.precio }}</span>
+                        {% if producto.es_nuevo %}
+                            <span class="badge bg-dark text-white position-absolute start-0 top-0 m-3" style="z-index:10; border-radius: 0; letter-spacing: 1px;">NUEVO</span>
+                        {% endif %}
+                        
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="card-img-top">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body">
+                        <h3 class="card-title fuente-serif">{{ producto.nombre }}</h3>
+                        <button class="btn-shop-sm border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#modalProducto{{ producto.id }}">
+                            Ver detalles
+                        </button>
+                    </div>
+
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center py-5">
-                <p class="text-muted">No se encontraron productos en esta categoría.</p>
+                <p class="text-muted">No encontramos prendas con esa descripción.</p>
+                <a href="{% url 'catalogo' %}" class="btn-shop-sm">Ver todo</a>
             </div>
             {% endfor %}
         </div>
@@ -396,12 +417,6 @@
 
     <section class="newsletter-section">
         <div class="container">
-            <h2 class="fuente-serif mb-3">Únete al Club Aura</h2>
-            <p class="mb-4">Recibe descuentos exclusivos y novedades antes que nadie.</p>
-            <div class="d-flex justify-content-center flex-wrap">
-                <input type="email" class="newsletter-input" placeholder="Tu correo electrónico">
-                <button class="btn-newsletter">Suscribirse</button>
-            </div>
         </div>
     </section>
 
@@ -409,28 +424,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5 class="fuente-serif">
-                        <i class="fas fa-spa me-2"></i> AURA DE JAZMÍN
-                    </h5>
-                    <p class="small text-white-50">
-                        Moda consciente inspirada en la naturaleza. 
-                        Prendas diseñadas para perdurar.
-                    </p>
+                    <h5 class="fuente-serif"><i class="fas fa-spa me-2"></i> AURA DE JAZMÍN</h5>
+                    <p class="small text-white-50">Moda consciente inspirada en la naturaleza.</p>
                 </div>
                 <div class="col-md-4 mb-4 text-md-center">
                     <h5 class="fuente-serif">AYUDA</h5>
                     <ul class="list-unstyled">
                         <li><a href="#">Guía de Talles</a></li>
                         <li><a href="#">Política de Cambios</a></li>
-                        <li><a href="#">Envíos</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 text-md-end">
                     <h5 class="fuente-serif">SÍGUENOS</h5>
                     <div class="fs-5">
                         <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
                     </div>
                 </div>
             </div>
@@ -443,6 +451,74 @@
     <a href="https://wa.me/5491100000000" class="wa-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    {% for producto in productos %}
+    <div class="modal fade" id="modalProducto{{ producto.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl"> 
+            <div class="modal-content" style="border-radius: 0; border: none; overflow: hidden;">
+                
+                <div class="row g-0">
+                    
+                    <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center p-3">
+                        
+                        {% if producto.es_nuevo %}
+                            <span class="badge bg-dark text-white position-absolute top-0 start-0 m-4 py-2 px-3" style="z-index: 10; letter-spacing: 2px; border-radius: 0;">NUEVO</span>
+                        {% endif %}
+
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" class="img-fluid" style="max-height: 70vh; width: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.05);" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="img-fluid" style="max-height: 70vh; width: auto;" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-6 p-5 bg-white d-flex flex-column justify-content-center position-relative">
+                        
+                        <button type="button" class="btn-close position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <div class="text-uppercase text-muted small mb-2" style="letter-spacing: 2px;">
+                            {{ producto.categoria.nombre|default:"Colección Aura" }}
+                        </div>
+
+                        <h2 class="fuente-serif display-5 mb-3" style="color: var(--color-marron);">{{ producto.nombre }}</h2>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <span class="display-6 me-3" style="font-weight: 500;">${{ producto.precio }}</span>
+                            {% if producto.activo %}
+                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success px-3">
+                                    <i class="fas fa-check-circle me-1"></i> En Stock
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <hr class="text-muted opacity-25 mb-4">
+
+                        <p class="text-muted mb-4" style="line-height: 1.8; font-size: 1.05rem;">
+                            {{ producto.descripcion|default:"Prenda de diseño exclusivo." }}
+                        </p>
+
+                        {% if producto.talles %}
+                        <div class="mb-5">
+                            <small class="text-uppercase fw-bold text-dark d-block mb-2">Talles:</small>
+                            <span class="border border-secondary px-4 py-2 text-dark d-inline-block">
+                                {{ producto.talles }}
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        <a href="https://wa.me/5491100000000?text=Hola Aura! Quiero comprar: {{ producto.nombre }}" 
+                           target="_blank"
+                           class="btn-aura w-100 text-center py-3" 
+                           style="background-color: var(--color-marron); color: white; letter-spacing: 2px;">
+                            QUIERO COMPRARLO <i class="fab fa-whatsapp ms-2"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

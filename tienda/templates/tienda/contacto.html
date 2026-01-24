@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Aura de Jazmín</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* --- TU PALETA --- */
+            --color-rosa: #E6A4B4;
+            --color-celeste: #D3E0EA;
+            --color-marron: #5D4037;
+            --color-crema: #FDFBF7;
+            --color-blanco: #FFFFFF;
+        }
+
+        body { font-family: 'Raleway', sans-serif; background-color: var(--color-crema); color: #1A1A1A; overflow-x: hidden; }
+        h1, h2, h3, .fuente-serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* NAVBAR (Mismo estilo que catálogo) */
+        .navbar { background-color: var(--color-crema); padding: 15px 0; }
+        .navbar-brand { font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--color-marron) !important; text-transform: uppercase; }
+        .nav-link { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--color-marron) !important; font-weight: 600; margin: 0 10px; }
+
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(to right, rgba(211, 224, 234, 0.4), rgba(253, 251, 247, 1));
+            padding: 80px 0;
+            margin-bottom: 60px;
+        }
+
+        /* FORMULARIO ESTILO BOUTIQUE */
+        .form-aura {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0;
+            padding: 15px 0;
+            box-shadow: none;
+            transition: 0.3s;
+        }
+        .form-aura:focus {
+            background-color: transparent;
+            border-color: var(--color-rosa);
+            box-shadow: none;
+        }
+        .btn-enviar {
+            background-color: var(--color-marron);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 15px 40px;
+            border: none;
+            transition: 0.3s;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .btn-enviar:hover {
+            background-color: var(--color-rosa);
+            color: white;
+        }
+
+        /* INFO BOXES */
+        .info-item { display: flex; align-items: flex-start; margin-bottom: 30px; }
+        .info-icon { 
+            width: 50px; height: 50px; 
+            background-color: white; 
+            color: var(--color-marron);
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* ACORDEÓN FAQ */
+        .accordion-item { border: none; background: transparent; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .accordion-button { background: transparent; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--color-marron); box-shadow: none !important; padding: 20px 0; }
+        .accordion-button:not(.collapsed) { color: var(--color-rosa); background: transparent; }
+        .accordion-button::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235D4037'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); }
+        
+        /* FOOTER */
+        footer { background-color: var(--color-marron); color: var(--color-crema); padding: 70px 0 30px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'catalogo' %}">
+                <i class="fas fa-spa me-2" style="color: var(--color-rosa);"></i> Aura de Jazmín
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <i class="fas fa-bars" style="color: var(--color-marron);"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container text-center">
+            <h1 class="display-3 fuente-serif" style="color: var(--color-marron);">Estamos Cerca</h1>
+            <p class="lead text-muted">¿Tienes alguna duda? Escríbenos y te asesoramos.</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-5">
+                <h3 class="fuente-serif mb-4" style="color: var(--color-marron);">Información de Contacto</h3>
+                <p class="mb-5 text-muted">Puedes visitarnos en nuestro showroom con cita previa o contactarnos por medios digitales.</p>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                    <div>
+                        <h5 class="fuente-serif mb-1">WhatsApp</h5>
+                        <p class="text-muted mb-0">+54 9 11 0000 0000</p>
+                        <small class="text-secondary">Lunes a Sábado de 10 a 20hs</small>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="far fa-envelope"></i></div>
+                    <div>
+                        <h5 class="fuente-serif mb-1">Email</h5>
+                        <p class="text-muted mb-0">hola@auradejazmin.com</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h5 class="fuente-serif mb-1">Showroom</h5>
+                        <p class="text-muted mb-0">Palermo Soho, Buenos Aires.</p>
+                        <small class="text-secondary">Calle Falsa 123, Timbre 2B</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="bg-white p-5 shadow-sm h-100">
+                    <h3 class="fuente-serif mb-4" style="color: var(--color-marron);">Envíanos un mensaje</h3>
+                    
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control form-aura" placeholder="Tu Nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control form-aura" placeholder="Tu Email">
+                            </div>
+                            <div class="col-12 mt-4">
+                                <input type="text" class="form-control form-aura" placeholder="Asunto">
+                            </div>
+                            <div class="col-12 mt-4">
+                                <textarea class="form-control form-aura" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+                            </div>
+                            <div class="col-12 mt-5">
+                                <button type="submit" class="btn-enviar w-100">Enviar Mensaje</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container my-5 py-5 border-top">
+        <h2 class="fuente-serif text-center mb-5 display-5" style="color: var(--color-marron);">Preguntas Frecuentes</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                ¿Hacen envíos a todo el país?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Sí, realizamos envíos a través de Correo Argentino y mensajería privada en CABA. El costo se calcula al momento de la compra.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                ¿Cuáles son los medios de pago?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Aceptamos todas las tarjetas de crédito y débito, Mercado Pago, y ofrecemos 10% de descuento abonando por transferencia bancaria.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                ¿Tienen política de cambios?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Sí, puedes realizar cambios dentro de los 30 días de realizada la compra, siempre que la prenda esté sin uso y con la etiqueta puesta.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-0 mt-5">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.0168878894506!2d-58.42955368477038!3d-34.5906141804629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcca7cd54f107b%3A0x88bd8fe0e0b6e3a6!2sPalermo%20Soho%2C%20CABA!5e0!3m2!1ses-419!2sar!4v1642198035030!5m2!1ses-419!2sar" width="100%" height="450" style="border:0; filter: grayscale(100%) opacity(0.8);" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <footer class="text-center">
+        <div class="container">
+            <h5 class="fuente-serif text-white-50 mb-3">AURA DE JAZMÍN</h5>
+            <small class="text-white-50">© 2024. Moda Consciente.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

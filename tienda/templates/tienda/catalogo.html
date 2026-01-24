@@ -222,7 +222,7 @@
         /* NEWSLETTER */
         .newsletter-section {
             background-color: var(--color-rosa);
-            padding: 80px 0;
+            padding: 15px 0;
             text-align: center;
             color: var(--color-blanco);
         }
@@ -293,6 +293,16 @@
         }
     </style>
 </head>
+
+<div class="alert alert-dismissible fade show text-center mb-0 rounded-0" role="alert" 
+         style="background-color: var(--color-marron); color: var(--color-crema); border: none; font-size: 0.85rem; letter-spacing: 1px;">
+        
+        <i class="fas fa-gift me-2" style="color: var(--color-rosa);"></i>
+        <strong>¡SALE DE INVIERNO!</strong> 3 Cuotas Sin Interés + Envío Gratis superando $80.000
+        
+        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="alert" aria-label="Close" style="opacity: 1;"></button>
+</div>
+
 <body>
 
     <nav class="navbar navbar-expand-lg sticky-top">
@@ -414,6 +424,46 @@
             {% endfor %}
         </div>
     </div>
+
+    {% if productos.has_other_pages %}
+        <div class="row mt-5" data-aos="fade-up">
+            <div class="col-12 d-flex justify-content-center">
+                <nav aria-label="Navegación del catálogo">
+                    <ul class="pagination">
+                        
+                        {% if productos.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link border-0 text-muted" href="?page={{ productos.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for i in productos.paginator.page_range %}
+                            {% if productos.number == i %}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link border-0" style="background-color: var(--color-marron); color: white;">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link border-0" style="color: var(--color-marron);" href="?page={{ i }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if productos.has_next %}
+                            <li class="page-item">
+                                <a class="page-link border-0 text-muted" href="?page={{ productos.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Siguiente">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% endif %}
 
     <section class="newsletter-section">
         <div class="container">

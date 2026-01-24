@@ -1,21 +1,28 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Producto, Categoria
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 def catalogo(request, category_slug=None):
     category = None
     categorias = Categoria.objects.all()
-    productos = Producto.objects.filter(activo=True)
+    productos_list = Producto.objects.filter(activo=True).order_by('-id') 
 
+    # Lógica de Categorías
     if category_slug:
         category = get_object_or_404(Categoria, slug=category_slug)
-        productos = productos.filter(categoria=category)
+        productos_list = productos_list.filter(categoria=category)
     
-    query = request.GET.get('q') # 'q' es lo que escribe el usuario en la cajita
+    # Buscador
+    query = request.GET.get('q') 
     if query:
-        productos = productos.filter(
+        productos_list = productos_list.filter(
             Q(nombre__icontains=query) | Q(descripcion__icontains=query)
         )
+
+    paginator = Paginator(productos_list, 9) 
+    page_number = request.GET.get('page')
+    productos = paginator.get_page(page_number)
 
     return render(request, 'tienda/catalogo.html', {
         'category': category,

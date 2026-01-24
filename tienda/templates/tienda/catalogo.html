@@ -13,7 +13,7 @@
 
     <style>
         :root {
-            /* --- TU PALETA DE COLORES FIJA --- */
+            /* --- PALETA DE COLORES --- */
             --color-rosa: #E6A4B4;       /* Rosado Viejo */
             --color-celeste: #D3E0EA;    /* Celeste Pastel */
             --color-marron: #5D4037;     /* Marrón Café */
@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* Títulos en fuente elegante */
+        /* Tipografía para Títulos */
         h1, h2, h3, h4, .fuente-serif {
             font-family: 'Cormorant Garamond', serif;
         }
@@ -47,7 +47,7 @@
             letter-spacing: 1px;
             color: var(--color-marron) !important;
             text-transform: uppercase;
-            display: flex;       /* Para alinear ícono y texto */
+            display: flex;
             align-items: center;
         }
         .nav-link {
@@ -59,7 +59,7 @@
             margin: 0 10px;
         }
 
-        /* --- HERO (PORTADA) --- */
+        /* --- HERO SECTION (PORTADA) --- */
         .hero-wrap {
             display: flex;
             flex-wrap: wrap;
@@ -73,14 +73,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background-color: var(--color-celeste); /* AQUÍ ESTÁ EL CELESTE */
+            background-color: var(--color-celeste);
             min-width: 320px;
         }
         
-        /* Mitad Derecha: IMAGEN DEL PERCHERO */
+        /* Mitad Derecha: Imagen Perchero */
         .hero-image {
             flex: 1;
-            /* Opción 2: Showroom con luz natural */
             background: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
             min-width: 320px;
             min-height: 400px;
@@ -89,18 +88,11 @@
         .titulo-grande {
             font-size: 4.5rem;
             line-height: 0.9;
-            color: var(--color-marron); /* Texto Marrón */
+            color: var(--color-marron);
             margin-bottom: 25px;
         }
-        .texto-bajada {
-            font-size: 1.1rem;
-            color: var(--color-marron);
-            margin-bottom: 40px;
-            max-width: 450px;
-            opacity: 0.9;
-        }
 
-        /* Botón Principal */
+        /* Botón Principal "Ver Productos" */
         .btn-aura {
             display: inline-block;
             padding: 15px 45px;
@@ -116,7 +108,7 @@
             width: fit-content;
         }
         .btn-aura:hover {
-            background-color: var(--color-rosa); /* Hover Rosado */
+            background-color: var(--color-rosa);
             border-color: var(--color-rosa);
             color: var(--color-blanco);
         }
@@ -129,7 +121,7 @@
         }
         .feature-icon {
             font-size: 2rem;
-            color: var(--color-rosa); /* Iconos Rosados */
+            color: var(--color-rosa);
             margin-bottom: 15px;
         }
         .feature-title {
@@ -156,7 +148,9 @@
             padding-bottom: 5px;
             transition: 0.3s;
             text-decoration: none;
+            cursor: pointer;
         }
+        /* Botón Activo o Hover */
         .filter-btn.active, .filter-btn:hover {
             color: var(--color-marron);
             border-bottom: 2px solid var(--color-rosa);
@@ -175,7 +169,7 @@
             position: relative;
             overflow: hidden;
             background-color: #f0f0f0;
-            aspect-ratio: 3/4; 
+            aspect-ratio: 3/4; /* Formato vertical */
         }
         .card-img-top {
             width: 100%;
@@ -224,7 +218,7 @@
 
         /* --- NEWSLETTER --- */
         .newsletter-section {
-            background-color: var(--color-rosa); /* Fondo Rosado */
+            background-color: var(--color-rosa);
             padding: 80px 0;
             text-align: center;
             color: var(--color-blanco);
@@ -238,7 +232,7 @@
             border-radius: 0;
         }
         .btn-newsletter {
-            background-color: var(--color-marron); /* Botón Marrón */
+            background-color: var(--color-marron);
             color: var(--color-blanco);
             border: none;
             padding: 15px 30px;
@@ -250,7 +244,7 @@
 
         /* --- FOOTER --- */
         footer {
-            background-color: var(--color-marron); /* Footer Marrón */
+            background-color: var(--color-marron);
             color: var(--color-crema);
             padding: 70px 0 30px;
             font-size: 0.9rem;
@@ -264,7 +258,7 @@
         footer a { color: var(--color-celeste); text-decoration: none; transition: 0.3s; }
         footer a:hover { color: var(--color-rosa); }
         
-        /* --- WHATSAPP FLOTANTE MEJORADO --- */
+        /* --- WHATSAPP FLOTANTE (ANIMADO) --- */
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
@@ -277,24 +271,24 @@
             right: 30px;
             background-color: #25D366; /* Verde Oficial */
             color: white;
-            width: 65px;  /* Un poco más grande */
+            width: 65px;
             height: 65px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 35px; /* Ícono más grande */
-            z-index: 9999; /* ¡Siempre arriba de todo! */
+            font-size: 35px;
+            z-index: 9999;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
             text-decoration: none;
-            animation: pulse-green 2s infinite; /* Animación de latido */
+            animation: pulse-green 2s infinite;
         }
 
         .wa-float:hover {
             transform: scale(1.1);
-            color: white; /* Asegura que el icono siga blanco */
-            background-color: #128C7E; /* Un verde un poco más oscuro al pasar el mouse */
+            color: white;
+            background-color: #128C7E;
         }
 
         /* RESPONSIVE */
@@ -334,9 +328,7 @@
     <div class="container-fluid p-0">
         <div class="hero-wrap">
             <div class="hero-text" data-aos="fade-right">
-                <span class="text-uppercase mb-2" style="letter-spacing: 2px; color: var(--color-marron);">Nueva Colección</span>
                 <h1 class="titulo-grande fuente-serif">Tu Estilo, <br><em>Tu Aura</em></h1>
-                <p class="texto-bajada">Selección exclusiva de prendas con tonos tierra y texturas naturales.</p>
                 <a href="#catalogo" class="btn-aura">Ver Productos</a>
             </div>
             
@@ -366,11 +358,12 @@
     <div class="container" id="catalogo">
         
         <div class="filters-area">
-            <a href="#" class="filter-btn active">Todo</a>
-            <a href="#" class="filter-btn">Vestidos</a>
-            <a href="#" class="filter-btn">Blusas</a>
-            <a href="#" class="filter-btn">Sastrería</a>
-            <a href="#" class="filter-btn">Accesorios</a>
+            {% for cat in categorias %}
+                <a href="{% url 'productos_por_categoria' cat.slug %}" 
+                   class="filter-btn {% if category.slug == cat.slug %}active{% endif %}">
+                    {{ cat.nombre }}
+                </a>
+            {% endfor %}
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
@@ -395,7 +388,7 @@
             </div>
             {% empty %}
             <div class="col-12 text-center py-5">
-                <p class="text-muted">Estamos renovando nuestro stock...</p>
+                <p class="text-muted">No se encontraron productos en esta categoría.</p>
             </div>
             {% endfor %}
         </div>

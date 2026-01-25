@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Producto, Categoria
+from .models import Producto, Categoria, Portada
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -7,6 +7,17 @@ def catalogo(request, category_slug=None):
     category = None
     categorias = Categoria.objects.all()
     productos_list = Producto.objects.filter(activo=True).order_by('-id') 
+
+    orden = request.GET.get('orden')
+
+    if orden == 'min_precio':
+        productos_list = productos_list.order_by('precio')
+    elif orden == 'max_precio':
+        productos_list = productos_list.order_by('-precio')
+    elif orden == 'antiguos':
+        productos_list = productos_list.order_by('id') 
+    else:
+        productos_list = productos_list.order_by('-id')
 
     # Lógica de Categorías
     if category_slug:
@@ -23,6 +34,11 @@ def catalogo(request, category_slug=None):
     paginator = Paginator(productos_list, 9) 
     page_number = request.GET.get('page')
     productos = paginator.get_page(page_number)
+
+    try:
+        portada = Portada.objects.get(activa=True).last()
+    except:
+        portada = None
 
     return render(request, 'tienda/catalogo.html', {
         'category': category,

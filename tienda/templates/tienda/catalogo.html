@@ -83,14 +83,14 @@
     </style>
 </head>
 <body>
-
+<!-- 
     <div class="alert alert-dismissible fade show text-center mb-0 rounded-0" role="alert" 
          style="background-color: var(--color-marron); color: var(--color-crema); border: none; font-size: 0.85rem; letter-spacing: 1px; position: relative; z-index: 1050;">
         <i class="fas fa-gift me-2" style="color: var(--color-rosa);"></i>
         <strong>¡SALE DE INVIERNO!</strong> 3 Cuotas Sin Interés + Envío Gratis superando $80.000
         <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="alert" aria-label="Close" style="opacity: 1;"></button>
     </div>
-
+ -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -162,13 +162,13 @@
                 </div>
                 <div class="col-md-4 d-flex flex-column align-items-center border-start-md">
                     <div class="icon-circle mb-3"><i class="far fa-credit-card"></i></div>
-                    <h5 class="feature-title mb-1">3 Cuotas sin interés</h5>
+                    <h5 class="feature-title mb-1">Pagos</h5>
                     <p class="text-muted small mb-0">Con todas las tarjetas bancarias.</p>
                 </div>
                 <div class="col-md-4 d-flex flex-column align-items-center border-start-md">
                     <div class="icon-circle mb-3"><i class="fas fa-gem"></i></div>
-                    <h5 class="feature-title mb-1">Calidad Premium</h5>
-                    <p class="text-muted small mb-0">Telas seleccionadas y diseño exclusivo.</p>
+                    <h5 class="feature-title mb-1">Excelente Calidad</h5>
+                    <p class="text-muted small mb-0">Diseños exclusivos</p>
                 </div>
             </div>
         </div>
@@ -296,37 +296,45 @@
             </div>
         {% endif %}
 
-    </div> <div class="py-5 mt-5" style="background-color: #FDFBF7;">
+    </div> 
+    
+    <div class="py-5 mt-5" style="background-color: #fae0f6;">
         <div class="container text-center">
-            <h2 class="fuente-serif mb-5" style="color: var(--color-marron);">Ellas ya eligieron su Aura</h2>
-            <div id="carruselTestimonios" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="d-flex justify-content-center">
-                            <div class="col-md-8">
-                                <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--color-rosa);"></i>
-                                <p class="lead" style="font-style: italic; color: #555;">"La calidad del lino es increíble. ¡Definitivamente vuelvo a comprar!"</p>
-                                <h5 class="fuente-serif mt-3" style="color: var(--color-marron);">— Sofía M.</h5>
+            <h2 class="fuente-serif mb-5" style="color: var(--color-marron);">Lo que nos dicen:</h2>
+            
+            {% if testimonios %}
+                <div id="carruselTestimonios" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for testimonio in testimonios %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="d-flex justify-content-center">
+                                <div class="col-md-8">
+                                    <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--color-rosa);"></i>
+                                    <p class="lead" style="font-style: italic; color: #555;">"{{ testimonio.texto }}"</p>
+                                    <h5 class="fuente-serif mt-3" style="color: var(--color-marron);">— {{ testimonio.autor }}</h5>
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    <div class="carousel-item">
-                        <div class="d-flex justify-content-center">
-                            <div class="col-md-8">
-                                <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--color-rosa);"></i>
-                                <p class="lead" style="font-style: italic; color: #555;">"Tenía dudas con el talle y me asesoraron súper bien."</p>
-                                <h5 class="fuente-serif mt-3" style="color: var(--color-marron);">— Camila R.</h5>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" style="filter: invert(1);" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" style="filter: invert(1);" aria-hidden="true"></span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" style="filter: invert(1);" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" style="filter: invert(1);" aria-hidden="true"></span>
-                </button>
-            </div>
+
+            {% else %}
+                <div class="d-flex flex-column align-items-center justify-content-center py-4">
+                    <div style="width: 70px; height: 70px; background: rgba(230, 164, 180, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                        <i class="far fa-comment-dots fa-2x" style="color: var(--color-rosa);"></i>
+                    </div>
+                    <h5 class="fuente-serif text-muted mb-2">Todavía no hay comentarios</h5>
+                    <p class="text-muted small mb-0">¡Sé la primera en contarnos tu experiencia con Aura!</p>
+                </div>
+            {% endif %}
+            
         </div>
     </div>
 
@@ -346,7 +354,7 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <h5 class="fuente-serif"><i class="fas fa-spa me-2"></i> AURA DE JAZMÍN</h5>
-                    <p class="small text-white-50">Moda consciente inspirada en la naturaleza.</p>
+                    <p class="small text-white-50">¡Moda para todos!</p>
                 </div>
                 <div class="col-md-4 mb-4 text-md-center">
                     <h5 class="fuente-serif">AYUDA</h5>
@@ -364,7 +372,7 @@
                 </div>
             </div>
             <div class="text-center mt-5 pt-3 border-top border-secondary">
-                <small class="text-white-50">&copy; 2024 Aura de Jazmín. Buenos Aires.</small>
+                <small class="text-white-50">&copy; 2026 Aura de Jazmín. San Fernando del Valle de Catamarca.</small>
             </div>
         </div>
     </footer>

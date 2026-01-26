@@ -15,21 +15,95 @@
             --color-celeste: #D3E0EA;
             --color-marron: #5D4037;
             --color-crema: #FDFBF7;
+
+            /* UX: mejores colores para lectura */
+            --texto-principal: #1F2937;   /* gris oscuro */
+            --texto-secundario: #4B5563;  /* gris medio */
         }
-        body { font-family: 'Raleway', sans-serif; background-color: var(--color-crema); color: #1A1A1A; }
+
+        /* UX base: tamaño, altura de línea y rendering */
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--color-crema);
+            color: var(--texto-principal);
+            font-size: 18px;           /* antes: default (más chico) */
+            line-height: 1.75;         /* más fácil de leer */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         .fuente-serif { font-family: 'Cormorant Garamond', serif; }
-        .fuente-firma { font-family: 'Great Vibes', cursive; color: var(--color-rosa); font-size: 2.5rem; }
+        .fuente-firma { font-family: 'Great Vibes', cursive; color: var(--color-rosa); font-size: 2.8rem; }
 
         /* NAVBAR */
-        .navbar { background-color: var(--color-crema); padding: 15px 0; }
-        .navbar-brand { font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--color-marron) !important; text-transform: uppercase; }
-        .nav-link { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--color-marron) !important; margin: 0 10px; }
+        .navbar { background-color: var(--color-crema); padding: 16px 0; }
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--color-marron) !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.05rem;
+        }
+        .nav-link {
+            text-transform: uppercase;
+            font-size: 0.85rem; /* un poco más grande */
+            letter-spacing: 2px;
+            color: var(--color-marron) !important;
+            margin: 0 10px;
+            font-weight: 600;
+        }
 
         /* IMAGEN DECORATIVA */
         .img-marco {
-            border-radius: 200px 200px 0 0; /* Forma de arco */
+            border-radius: 200px 200px 0 0;
             object-fit: cover;
-            box-shadow: 20px 20px 0px rgba(230, 164, 180, 0.3); /* Sombra sólida rosa */
+            box-shadow: 20px 20px 0px rgba(230, 164, 180, 0.30);
+        }
+
+        /* UX: bloque de texto con ancho cómodo */
+        .reading-wrap {
+            max-width: 560px; /* evita líneas largas */
+        }
+
+        /* UX: jerarquía tipográfica */
+        .kicker {
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            font-weight: 700;
+            color: #6B7280;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 3.2vw, 3.2rem);
+            line-height: 1.1;
+            color: var(--color-marron);
+            margin-bottom: 1.1rem;
+        }
+
+        .lead-ux {
+            font-size: 1.15rem;
+            color: var(--texto-secundario);
+            line-height: 1.85;
+        }
+
+        .text-ux {
+            font-size: 1.05rem;
+            color: var(--texto-secundario);
+            line-height: 1.9;
+        }
+
+        /* UX: separación vertical real */
+        .section-padding {
+            padding-top: 5rem !important;
+            padding-bottom: 5rem !important;
+        }
+
+        /* Mejor lectura en mobile */
+        @media (max-width: 576px) {
+            body { font-size: 17px; }
+            .fuente-firma { font-size: 2.3rem; }
+            .reading-wrap { max-width: 100%; }
         }
     </style>
 </head>
@@ -52,31 +126,42 @@
         </div>
     </nav>
 
-    <div class="container my-5 py-5">
+    <div class="container my-5 section-padding">
         <div class="row align-items-center g-5">
             
             <div class="col-md-6 text-center">
                 <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                     class="img-fluid img-marco" alt="Showroom Aura" style="max-height: 500px; width: 80%;">
+                     class="img-fluid img-marco" alt="Showroom Aura" style="max-height: 520px; width: 86%;">
             </div>
 
             <div class="col-md-6">
-                <h4 class="text-uppercase text-muted small ls-2 mb-3">Nuestra Esencia</h4>
-                <h1 class="display-4 fuente-serif mb-4" style="color: var(--color-marron);">Más que ropa, <br><em>un estado de ánimo.</em></h1>
-                
-                <p class="lead mb-4" style="color: #666;">
-                    Aura de Jazmín nació en 2024 con una misión simple: rescatar la belleza de lo natural y lo atemporal en un mundo que va demasiado rápido.
-                </p>
-                <p class="mb-4 text-muted">
-                    Creemos en las prendas que cuentan historias. Seleccionamos cuidadosamente cada tela, priorizando el lino, el algodón y las texturas que abrazan la piel. No seguimos tendencias pasajeras; diseñamos piezas para que te acompañen durante años.
-                </p>
-                <p class="mb-5 text-muted">
-                    Nuestro showroom en Buenos Aires es un refugio de calma, donde cada clienta es recibida como una amiga. Queremos que al vestirte, sientas que estás mostrando tu verdadera aura al mundo.
-                </p>
+                <div class="reading-wrap">
+                    <div class="kicker text-uppercase mb-3">Nuestra Esencia</div>
 
-                <div class="mt-4">
-                    <p class="mb-0 text-uppercase small fw-bold">Con amor,</p>
-                    <div class="fuente-firma">Jazmín & Equipo</div>
+                    <h1 class="hero-title fuente-serif">
+                        Ropa y lencería <br><em>para la vida real.</em>
+                    </h1>
+
+                    <p class="mt-3 mb-4" style="font-size: 1.25rem; font-weight: 700; color: var(--texto-principal);">
+                        Para vos, para regalar, para enamorar.
+                    </p>
+                    
+                    <p class="lead-ux mb-4">
+                        Aura de Jazmín es un espacio creado para elegir con calma y vestirte con confianza.
+                    </p>
+
+                    <p class="text-ux mb-4">
+                        Encontrás lencería femenina y masculina con buen calce y comodidad, y ropa de niño y niña pensada para el uso diario: suave, práctica y con estilo.
+                    </p>
+
+                    <p class="text-ux mb-4">
+                        Cuidamos los detalles, seleccionamos cada prenda con criterio y trabajamos para que te lleves algo que te guste de verdad, no solo por compromiso.
+                    </p>
+
+                    <p class="text-ux mb-0">
+                        <strong>Tu aura no se explica: se nota.</strong><br>
+                        Nosotros te ayudamos a mostrarla.
+                    </p>
                 </div>
             </div>
 
@@ -87,16 +172,16 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
-                    <h3 class="fuente-serif mb-3">Sustentabilidad</h3>
-                    <p class="text-muted small px-4">Procesos éticos y reducción de desperdicios en cada colección.</p>
+                    <h3 class="fuente-serif mb-3" style="font-size: 1.6rem;">Sustentabilidad</h3>
+                    <p class="text-muted small px-4" style="font-size: 1rem; line-height: 1.7;">Procesos éticos y reducción de desperdicios en cada colección.</p>
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0 border-start border-end">
-                    <h3 class="fuente-serif mb-3">Diseño Local</h3>
-                    <p class="text-muted small px-4">Orgullosamente confeccionado por manos argentinas.</p>
+                    <h3 class="fuente-serif mb-3" style="font-size: 1.6rem;">Diseño Local</h3>
+                    <p class="text-muted small px-4" style="font-size: 1rem; line-height: 1.7;">Orgullosamente confeccionado por manos argentinas.</p>
                 </div>
                 <div class="col-md-4">
-                    <h3 class="fuente-serif mb-3">Atención Humana</h3>
-                    <p class="text-muted small px-4">Asesoramiento real, honesto y personalizado.</p>
+                    <h3 class="fuente-serif mb-3" style="font-size: 1.6rem;">Atención Humana</h3>
+                    <p class="text-muted small px-4" style="font-size: 1rem; line-height: 1.7;">Asesoramiento real, honesto y personalizado.</p>
                 </div>
             </div>
         </div>
@@ -104,8 +189,8 @@
 
     <footer class="text-center py-5" style="background-color: var(--color-marron); color: white;">
         <div class="container">
-            <h5 class="fuente-serif text-white-50 mb-3">AURA DE JAZMÍN</h5>
-            <small>© 2024. Todos los derechos reservados.</small>
+            <h5 class="fuente-serif text-white-50 mb-3" style="font-size: 1.2rem; letter-spacing: 2px;">AURA DE JAZMÍN</h5>
+            <small style="font-size: 1rem;">© 2026. San Fernando del Valle de Catamarca.</small>
         </div>
     </footer>
 </body>

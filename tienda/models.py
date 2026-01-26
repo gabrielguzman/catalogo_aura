@@ -11,6 +11,7 @@ class Categoria(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     descripcion = models.TextField(blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -32,6 +33,9 @@ class Producto(models.Model):
 
     def tiene_stock(self):
         return self.stock > 0
+    
+    def get_relacionados(self):
+        return Producto.objects.filter(categoria=self.categoria, activo=True, stock__gt=0).exclude(id=self.id).order_by('-id')[:3]
 
 class Portada(models.Model):
     titulo = models.CharField(max_length=100, default="Tu Estilo, Tu Aura")
@@ -46,3 +50,10 @@ class Portada(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class ImagenProducto(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='imagenes_extra')
+    imagen = models.ImageField(upload_to='productos_extra/')
+
+    def __str__(self):
+        return f"Foto extra de {self.producto.nombre}"

@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Bolsa | Aura de Jazmín</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --color-rosa: #E6A4B4;
+            --color-marron: #5D4037;
+            --color-crema: #FDFBF7;
+            --color-blanco: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--color-crema);
+            color: #333;
+        }
+
+        h1, h2, h3, h4, .fuente-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* NAVBAR SIMPLE */
+        .navbar-simple {
+            background-color: var(--color-blanco);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-marron) !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* TABLA DE PRODUCTOS */
+        .cart-item-img {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .table-custom th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #888;
+            border-bottom: 1px solid #eee;
+        }
+        .btn-delete {
+            color: #ccc;
+            transition: 0.3s;
+        }
+        .btn-delete:hover {
+            color: var(--color-rosa);
+        }
+
+        /* CARD DE RESUMEN */
+        .summary-card {
+            background-color: var(--color-blanco);
+            border: none;
+            box-shadow: 0 10px 30px rgba(93, 64, 55, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .btn-checkout {
+            background-color: var(--color-marron);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-checkout:hover {
+            background-color: var(--color-rosa);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-continue {
+            color: var(--color-marron);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .btn-continue:hover {
+            border-color: var(--color-marron);
+        }
+
+        /* Botones de Cantidad */
+        .btn-qty {
+            background-color: #f8f9fa;
+            border: 1px solid #eee;
+            color: #555;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .btn-qty:hover {
+            background-color: var(--color-rosa);
+            color: white;
+            border-color: var(--color-rosa);
+        }
+    </style>
+</head>
+<body>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center m-0 rounded-0 position-fixed w-100 top-0 start-0" style="z-index: 1050;" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <nav class="navbar navbar-simple mb-5">
+        <div class="container d-flex justify-content-center">
+            <a class="navbar-brand" href="{% url 'catalogo' %}">
+                <i class="fas fa-spa me-2" style="color: var(--color-rosa);"></i>
+                Aura de Jazmín
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        
+        {% if items %}
+            <div class="row g-5">
+                
+                <div class="col-lg-8">
+                    <h2 class="fuente-serif mb-4" style="color: var(--color-marron);">Tu Carrito de Compras</h2>
+                    
+                    <div class="bg-white p-4 shadow-sm rounded-3">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-custom align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 45%;">Producto</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-end">Precio</th>
+                                        <th style="width: 5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                        <td class="py-4">
+                                            <div class="d-flex align-items-center">
+                                                {% if item.imagen %}
+                                                    <img src="{{ item.imagen }}" class="cart-item-img shadow-sm me-3" alt="{{ item.nombre }}">
+                                                {% else %}
+                                                    <div class="cart-item-img bg-light d-flex align-items-center justify-content-center me-3 text-muted small">Sin foto</div>
+                                                {% endif %}
+                                                <div>
+                                                    <h5 class="fuente-serif mb-1" style="font-size: 1.1rem; color: var(--color-marron);">{{ item.nombre }}</h5>
+                                                    <small class="text-muted text-uppercase" style="font-size: 0.7rem;">Código: {{ item.producto_id }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <a href="{% url 'restar_carrito' item.producto_id %}" class="btn-qty">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                                
+                                                <span class="mx-2 fw-bold text-dark" style="font-size: 0.9rem; min-width: 20px;">
+                                                    {{ item.cantidad }}
+                                                </span>
+                                                
+                                                <a href="{% url 'sumar_carrito' item.producto_id %}" class="btn-qty">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                            </div>
+                                            {% if item.stock and item.cantidad >= item.stock %}
+                                                <small class="text-danger d-block mt-1" style="font-size: 0.65rem;">Stock máx.</small>
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-end">
+                                            <span class="fw-bold text-dark">${{ item.precio }}</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{% url 'eliminar_carrito' item.producto_id %}" class="btn-delete" title="Eliminar">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'catalogo' %}" class="btn-continue">
+                            <i class="fas fa-arrow-left me-2"></i> Seguir comprando
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="summary-card">
+                        <h4 class="fuente-serif mb-4" style="color: var(--color-marron);">Resumen del Pedido</h4>
+                        
+                        <div class="d-flex justify-content-between mb-2 text-muted small">
+                            <span>Subtotal</span>
+                            <span>${{ total }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4 text-muted small">
+                            <span>Envío</span>
+                            <span>A coordinar</span>
+                        </div>
+
+                        <hr class="opacity-10 my-4">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <span class="fuente-serif h5 mb-0">Total</span>
+                            <span class="fuente-serif h3 mb-0" style="color: var(--color-marron);">${{ total }}</span>
+                        </div>
+
+                        <a href="https://wa.me/5491100000000?text={{ texto_wa }}" 
+                           target="_blank"
+                           class="btn-checkout shadow-sm">
+                            <i class="fab fa-whatsapp me-2"></i> Finalizar Compra
+                        </a>
+
+                        <p class="text-muted text-center mt-3 small" style="font-size: 0.75rem; line-height: 1.4;">
+                            <i class="fas fa-lock me-1"></i> Al finalizar, te redirigiremos a WhatsApp con el detalle de tu pedido listo para enviar.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        {% else %}
+            
+            <div class="row justify-content-center py-5">
+                <div class="col-md-6 text-center">
+                    <div class="mb-4">
+                        <div style="width: 80px; height: 80px; background: #e8e8e8; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #999;">
+                            <i class="fas fa-shopping-bag fa-2x"></i>
+                        </div>
+                    </div>
+                    <h2 class="fuente-serif mb-3">Tu bolsa está vacía</h2>
+                    <p class="text-muted mb-4">Parece que aún no has agregado prendas a tu colección. Explora nuestro catálogo para encontrar tu próximo look.</p>
+                    <a href="{% url 'catalogo' %}" class="btn-checkout d-inline-block w-auto px-5" style="text-decoration: none;">
+                        Ir al Catálogo
+                    </a>
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

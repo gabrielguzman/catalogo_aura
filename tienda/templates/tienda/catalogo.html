@@ -105,6 +105,17 @@
                     <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link" href="{% url 'ver_carrito' %}">
+                            <i class="fas fa-shopping-bag fa-lg"></i>
+                            {% if cantidad_carrito > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                                      style="font-size: 0.6rem;">
+                                    {{ cantidad_carrito }}
+                                </span>
+                            {% endif %}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -369,18 +380,50 @@
                 
                 <div class="row g-0">
                     
-                    <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center p-3">
+                    <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center p-0 position-relative">
+                        
                         {% if producto.es_nuevo %}
-                            <span class="badge bg-dark text-white position-absolute top-0 start-0 m-4 py-2 px-3" style="z-index: 10; letter-spacing: 2px; border-radius: 0;">NUEVO</span>
+                            <span class="badge bg-dark text-white position-absolute top-0 start-0 m-4 py-2 px-3" style="z-index: 20; letter-spacing: 2px; border-radius: 0;">NUEVO</span>
                         {% endif %}
 
-                        {% if producto.imagen %}
-                            <img src="{{ producto.imagen.url }}" class="img-fluid" style="max-height: 70vh; width: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.05); {% if producto.stock == 0 %}filter: grayscale(100%); opacity: 0.6;{% endif %}" alt="{{ producto.nombre }}">
+                        {% if producto.imagenes_extra.exists %}
+                            
+                            <div id="carousel{{ producto.id }}" class="carousel slide w-100 h-100" data-bs-ride="carousel">
+                                <div class="carousel-inner w-100 h-100">
+                                    
+                                    <div class="carousel-item active w-100 h-100">
+                                        {% if producto.imagen %}
+                                            <img src="{{ producto.imagen.url }}" class="d-block w-100 h-100" style="object-fit: contain; max-height: 70vh;" alt="Principal">
+                                        {% endif %}
+                                    </div>
+
+                                    {% for foto in producto.imagenes_extra.all %}
+                                    <div class="carousel-item w-100 h-100">
+                                        <img src="{{ foto.imagen.url }}" class="d-block w-100 h-100" style="object-fit: contain; max-height: 70vh;" alt="Vista extra">
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                                
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ producto.id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ producto.id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                                </button>
+                            </div>
+
                         {% else %}
-                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="img-fluid" style="max-height: 70vh; width: auto;" alt="Sin imagen">
+                            <div class="p-3 w-100 h-100 d-flex align-items-center justify-content-center">
+                                {% if producto.imagen %}
+                                    <img src="{{ producto.imagen.url }}" class="img-fluid" style="max-height: 70vh; width: auto; {% if producto.stock == 0 %}filter: grayscale(100%); opacity: 0.6;{% endif %}" alt="{{ producto.nombre }}">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="img-fluid" style="max-height: 70vh;" alt="Sin imagen">
+                                {% endif %}
+                            </div>
                         {% endif %}
                     </div>
-
+                    
                     <div class="col-lg-6 p-5 bg-white d-flex flex-column justify-content-center position-relative">
                         
                         <button type="button" class="btn-close position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -426,11 +469,10 @@
                         {% endif %}
 
                         {% if producto.stock > 0 %}
-                            <a href="https://wa.me/5491100000000?text=Hola Aura! Quiero comprar: {{ producto.nombre }}" 
-                               target="_blank"
-                               class="btn-aura w-100 text-center py-3" 
-                               style="background-color: var(--color-marron); color: white; letter-spacing: 2px;">
-                                QUIERO COMPRARLO <i class="fab fa-whatsapp ms-2"></i>
+                            <a href="{% url 'agregar_carrito' producto.id %}" 
+                               class="btn-aura w-100 text-center py-3 text-decoration-none" 
+                               style="background-color: var(--color-marron); color: white; letter-spacing: 2px; display: block;">
+                                AGREGAR AL CARRITO <i class="fas fa-shopping-bag ms-2"></i>
                             </a>
                             
                             {% if producto.stock <= 3 %}
@@ -452,7 +494,35 @@
                             </div>
                         {% endif %}
 
-                    </div>
+                        {% with relacionados=producto.get_relacionados %}
+                            {% if relacionados %}
+                                <div class="mt-5 pt-4 border-top border-secondary border-opacity-10">
+                                    <h5 class="fuente-serif mb-3 text-muted small text-uppercase" style="letter-spacing: 2px;">También te puede gustar</h5>
+                                    
+                                    <div class="row g-2">
+                                        {% for rel in relacionados %}
+                                        <div class="col-4">
+                                            <div class="position-relative" style="cursor: pointer;" 
+                                                 data-bs-toggle="modal" data-bs-target="#modalProducto{{ rel.id }}">
+                                                
+                                                <div class="ratio ratio-1x1 bg-light mb-2">
+                                                    {% if rel.imagen %}
+                                                        <img src="{{ rel.imagen.url }}" class="img-fluid" style="object-fit: cover;" alt="{{ rel.nombre }}">
+                                                    {% else %}
+                                                        <div class="d-flex align-items-center justify-content-center h-100 text-muted small">Sin foto</div>
+                                                    {% endif %}
+                                                </div>
+
+                                                <p class="mb-0 small fw-bold text-truncate" style="color: var(--color-marron);">{{ rel.nombre }}</p>
+                                                <p class="mb-0 small text-muted">${{ rel.precio }}</p>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                        </div>
                 </div>
             </div>
         </div>

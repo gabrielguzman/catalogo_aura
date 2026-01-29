@@ -36,23 +36,10 @@
         .fuente-firma { font-family: 'Great Vibes', cursive; color: var(--color-rosa); font-size: 2.8rem; }
 
         /* NAVBAR */
-        .navbar { background-color: var(--color-crema); padding: 16px 0; }
-        .navbar-brand {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 700;
-            color: var(--color-marron) !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1.05rem;
-        }
-        .nav-link {
-            text-transform: uppercase;
-            font-size: 0.85rem; /* un poco más grande */
-            letter-spacing: 2px;
-            color: var(--color-marron) !important;
-            margin: 0 10px;
-            font-weight: 600;
-        }
+         /* NAVBAR (Mismo estilo que catálogo) */
+        .navbar { background-color: var(--color-crema); padding: 15px 0; }
+        .navbar-brand { font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--color-marron) !important; text-transform: uppercase; }
+        .nav-link { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--color-marron) !important; font-weight: 600; margin: 0 10px; }
 
         /* IMAGEN DECORATIVA */
         .img-marco {
@@ -121,6 +108,17 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link" href="{% url 'ver_carrito' %}">
+                            <i class="fas fa-shopping-bag fa-lg"></i>
+                            {% if cantidad_carrito > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                                      style="font-size: 0.6rem;">
+                                    {{ cantidad_carrito }}
+                                </span>
+                            {% endif %}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

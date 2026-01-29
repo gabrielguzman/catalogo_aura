@@ -232,10 +232,26 @@
                     <div class="summary-card">
                         <h4 class="fuente-serif mb-4" style="color: var(--color-marron);">Resumen del Pedido</h4>
                         
+                        <form action="{% url 'canjear_cupon' %}" method="POST" class="mb-4">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="codigo" class="form-control" placeholder="¿Tenés un cupón?" style="font-size: 0.85rem; border-color: #eee;">
+                                <button class="btn btn-outline-secondary" type="submit" style="border-color: #eee; font-size: 0.85rem;">Aplicar</button>
+                            </div>
+                        </form>
+
                         <div class="d-flex justify-content-between mb-2 text-muted small">
                             <span>Subtotal</span>
-                            <span>${{ total }}</span>
+                            <span>${{ carrito.obtener_subtotal }}</span>
                         </div>
+
+                        {% if carrito.obtener_descuento > 0 %}
+                        <div class="d-flex justify-content-between mb-2 text-success small">
+                            <span>Descuento aplicado</span>
+                            <span>- ${{ carrito.obtener_descuento }}</span>
+                        </div>
+                        {% endif %}
+
                         <div class="d-flex justify-content-between mb-4 text-muted small">
                             <span>Envío</span>
                             <span>A coordinar</span>
@@ -248,14 +264,12 @@
                             <span class="fuente-serif h3 mb-0" style="color: var(--color-marron);">${{ total }}</span>
                         </div>
 
-                        <a href="https://wa.me/5491100000000?text={{ texto_wa }}" 
-                           target="_blank"
-                           class="btn-checkout shadow-sm">
+                        <a href="{% url 'procesar_pedido' %}" class="btn-checkout shadow-sm">
                             <i class="fab fa-whatsapp me-2"></i> Finalizar Compra
                         </a>
 
                         <p class="text-muted text-center mt-3 small" style="font-size: 0.75rem; line-height: 1.4;">
-                            <i class="fas fa-lock me-1"></i> Al finalizar, te redirigiremos a WhatsApp con el detalle de tu pedido listo para enviar.
+                            <i class="fas fa-lock me-1"></i> Al finalizar, te pediremos tus datos y te redirigiremos a WhatsApp con el pedido listo.
                         </p>
                     </div>
                 </div>

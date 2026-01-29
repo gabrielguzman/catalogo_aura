@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Producto, Categoria, Portada
+from .models import Producto, Categoria, Portada, Pedido, DetallePedido, Cupon
 from django.db.models import Q
 from django.core.paginator import Paginator
 from .carrito import Carrito
 from django.contrib import messages
 from django.shortcuts import redirect
+from .forms import PedidoForm
+from urllib.parse import quote
 
 def catalogo(request, category_slug=None):
     category = None
@@ -89,6 +91,7 @@ def ver_carrito(request):
     return render(request, 'tienda/carrito.html', {
         'items': items,
         'total': total,
+        'carrito': carrito,
         'texto_wa': texto_wa
     })
 
@@ -113,3 +116,90 @@ def restar_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     carrito.restar(producto)
     return redirect('ver_carrito')
+
+# --- FUNCIÓN 1: APLICAR CUPÓN (La nueva) ---
+def canjear_cupon(request):
+    if request.method == 'POST':
+        codigo = request.POST.get('codigo')
+        try:
+            cupon = Cupon.objects.get(codigo__iexact=codigo, activo=True)
+            request.session['cupon_id'] = cupon.id
+            messages.success(request, f"¡Cupón {cupon.codigo} aplicado!")
+        except Cupon.DoesNotExist:
+            request.session['cupon_id'] = None
+            messages.error(request, "El cupón no es válido.")
+            
+    return redirect('ver_carrito')
+
+
+# --- FUNCIÓN 2: PROCESAR PEDIDO (La que se había perdido) ---
+def procesar_pedido(request):
+    carrito = Carrito(request)
+    
+    if carrito.obtener_cantidad_total() == 0:
+        return redirect('catalogo')
+
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            # 1. Crear el pedido
+            pedido = form.save(commit=False)
+            pedido.total = carrito.obtener_total()
+            pedido.save()
+
+            # --- CONSTRUCCIÓN DEL MENSAJE ---
+            detalle_texto = ""
+
+            for item in carrito.carrito.values():
+                producto = Producto.objects.get(id=item['producto_id'])
+                
+                # Guardar en Base de Datos
+                DetallePedido.objects.create(
+                    pedido=pedido,
+                    producto=producto,
+                    cantidad=item['cantidad'],
+                    precio_unitario=float(item['precio'])
+                )
+
+                # Restar Stock
+                producto.stock -= item['cantidad']
+                producto.save()
+
+                # Agregar al texto (Usamos \n para salto de línea)
+                detalle_texto += f"- {item['cantidad']}x {producto.nombre}\n"
+
+            # Cupón
+            if carrito.obtener_descuento() > 0:
+                detalle_texto += f"\n(Descuento aplicado: -${carrito.obtener_descuento()})\n"
+
+            # 2. Limpiar Carrito
+            carrito.limpiar()
+            if 'cupon_id' in request.session:
+                del request.session['cupon_id']
+
+            # 3. Generar Link de WhatsApp Seguro
+            numero_whatsapp = "3834084055" # <--- TU NÚMERO
+            
+            # Armamos el mensaje con saltos de línea normales
+            mensaje_original = (
+                f"Hola Aura! Soy {pedido.nombre_cliente}.\n"
+                f"Hice el Pedido #{pedido.id} en la web:\n\n"
+                f"{detalle_texto}\n"
+                f"Total Final: ${pedido.total}\n\n"
+                f"¿Cómo realizo el pago?"
+            )
+            
+            # Codificamos el mensaje para que funcione en la URL (convierte espacios a %20, etc.)
+            mensaje_codificado = quote(mensaje_original)
+            
+            url_wa = f"https://wa.me/{numero_whatsapp}?text={mensaje_codificado}"
+            
+            return redirect(url_wa)
+    else:
+        form = PedidoForm()
+
+    return render(request, 'tienda/checkout.html', {
+        'form': form,
+        'carrito': carrito,
+        'total': carrito.obtener_total()
+    })

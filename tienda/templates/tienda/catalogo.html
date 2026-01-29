@@ -298,45 +298,76 @@
 
     </div> 
     
-    <div class="py-5 mt-5" style="background-color: #fae0f6;">
-        <div class="container text-center">
-            <h2 class="fuente-serif mb-5" style="color: var(--color-marron);">Lo que nos dicen:</h2>
+    <section class="py-5 mt-5 position-relative" style="background-color: #faf7f2;">
+        <div class="container py-4">
             
+            <div class="text-center mb-5">
+                <span class="text-uppercase text-muted small" style="letter-spacing: 2px;">Testimonios</span>
+            </div>
+
             {% if testimonios %}
-                <div id="carruselTestimonios" class="carousel slide" data-bs-ride="carousel">
+                <div id="carruselTestimonios" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                    
                     <div class="carousel-inner">
                         {% for testimonio in testimonios %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                             <div class="d-flex justify-content-center">
-                                <div class="col-md-8">
-                                    <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--color-rosa);"></i>
-                                    <p class="lead" style="font-style: italic; color: #555;">"{{ testimonio.texto }}"</p>
-                                    <h5 class="fuente-serif mt-3" style="color: var(--color-marron);">— {{ testimonio.autor }}</h5>
+                                <div class="col-lg-8 text-center">
+                                    
+                                    <div class="mb-3" style="color: #E6A4B4;">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+
+                                    <p class="fuente-serif display-6 mb-4" style="color: #5D4037; font-style: italic; line-height: 1.4;">
+                                        "{{ testimonio.texto }}"
+                                    </p>
+
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div style="height: 1px; width: 30px; background-color: #E6A4B4; margin-right: 10px;"></div>
+                                        <h6 class="text-uppercase mb-0 fw-bold" style="letter-spacing: 1px; font-size: 0.8rem; color: #333;">
+                                            {{ testimonio.autor }}
+                                        </h6>
+                                        <div style="height: 1px; width: 30px; background-color: #E6A4B4; margin-left: 10px;"></div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" style="filter: invert(1);" aria-hidden="true"></span>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="prev" style="width: 5%; opacity: 1;">
+                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 40px; height: 40px; background-color: white; color: var(--color-marron);">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" style="filter: invert(1);" aria-hidden="true"></span>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carruselTestimonios" data-bs-slide="next" style="width: 5%; opacity: 1;">
+                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 40px; height: 40px; background-color: white; color: var(--color-marron);">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
                     </button>
+
                 </div>
 
             {% else %}
-                <div class="d-flex flex-column align-items-center justify-content-center py-4">
-                    <div style="width: 70px; height: 70px; background: rgba(230, 164, 180, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                        <i class="far fa-comment-dots fa-2x" style="color: var(--color-rosa);"></i>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <div class="p-5 bg-white shadow-sm rounded-1 border border-light">
+                            <i class="far fa-heart fa-2x mb-3" style="color: var(--color-rosa);"></i>
+                            <h5 class="fuente-serif text-dark mb-2">Sé nuestra primera historia</h5>
+                            <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                Todavía estamos recolectando las primeras experiencias.<br>
+                                ¡Realiza tu compra y cuéntanos cómo te sentiste con Aura de Jazmín!
+                            </p>
+                        </div>
                     </div>
-                    <h5 class="fuente-serif text-muted mb-2">Todavía no hay comentarios</h5>
-                    <p class="text-muted small mb-0">¡Sé la primera en contarnos tu experiencia con Aura!</p>
                 </div>
+
             {% endif %}
             
         </div>
-    </div>
+    </section>
 
     <section class="newsletter-section">
         <div class="container">

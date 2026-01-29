@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Categoria, Producto, Portada, ImagenProducto
+from .models import Categoria, Producto, Portada, ImagenProducto, Cupon
 
 # 1. Configuración de Categorías
 class CategoriaAdmin(admin.ModelAdmin):
@@ -30,3 +30,8 @@ class PortadaAdmin(admin.ModelAdmin):
         if self.model.objects.count() >= 1:
             return False
         return True
+
+@admin.register(Cupon)
+class CuponAdmin(admin.ModelAdmin):
+    list_display = ('codigo', 'descuento', 'activo')
+    search_fields = ('codigo',)

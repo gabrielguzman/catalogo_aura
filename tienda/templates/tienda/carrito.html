@@ -189,7 +189,7 @@
                                         
                                         <td class="text-center">
                                             <div class="d-flex align-items-center justify-content-center">
-                                                <a href="{% url 'restar_carrito' item.producto_id %}" class="btn-qty">
+                                                <a href="{% url 'restar_carrito' item.variante_id %}" class="btn-qty">
                                                     <i class="fas fa-minus"></i>
                                                 </a>
                                                 
@@ -197,7 +197,7 @@
                                                     {{ item.cantidad }}
                                                 </span>
                                                 
-                                                <a href="{% url 'sumar_carrito' item.producto_id %}" class="btn-qty">
+                                                <a href="{% url 'sumar_carrito' item.variante_id %}" class="btn-qty">
                                                     <i class="fas fa-plus"></i>
                                                 </a>
                                             </div>
@@ -210,7 +210,7 @@
                                             <span class="fw-bold text-dark">${{ item.precio }}</span>
                                         </td>
                                         <td class="text-end">
-                                            <a href="{% url 'eliminar_carrito' item.producto_id %}" class="btn-delete" title="Eliminar">
+                                            <a href="{% url 'eliminar_carrito' item.variante_id %}" class="btn-delete" title="Eliminar">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>

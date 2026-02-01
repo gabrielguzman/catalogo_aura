@@ -80,6 +80,15 @@
             color: white;
             transform: translateY(-2px);
         }
+
+        /* Estilos nuevos para el listado */
+        .item-checkout {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 10px 0;
+        }
+        .item-checkout:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
@@ -95,18 +104,47 @@
 
     <div class="container pb-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                
-                <div class="text-center mb-4">
-                    <h2 class="fuente-serif" style="color: var(--color-marron);">Tus Datos</h2>
-                    <p class="text-muted small">Completa el formulario para enviarte el pedido por WhatsApp.</p>
+            <div class="col-md-7 col-lg-6"> <div class="text-center mb-4">
+                    <h2 class="fuente-serif" style="color: var(--color-marron);">Finalizar Compra</h2>
+                    <p class="text-muted small">Revisa tu pedido e ingresa tus datos.</p>
                 </div>
 
                 <div class="bg-white p-4 p-md-5 shadow-sm rounded-3">
                     
-                    <div class="d-flex justify-content-between align-items-center mb-4 pb-4 border-bottom">
-                        <span class="text-muted text-uppercase small fw-bold">Total a Pagar</span>
-                        <span class="fuente-serif h3 mb-0" style="color: var(--color-marron);">${{ total }}</span>
+                    <div class="mb-4">
+                        <h5 class="fuente-serif mb-3 text-muted border-bottom pb-2">Resumen de tu Pedido</h5>
+                        
+                        <div class="lista-productos mb-3">
+                            {% for key, item in carrito.carrito.items %}
+                            <div class="item-checkout d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    {% if item.imagen %}
+                                        <img src="{{ item.imagen }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 12px;">
+                                    {% endif %}
+                                    
+                                    <div>
+                                        <h6 class="my-0 small fw-bold text-uppercase">{{ item.nombre }}</h6>
+                                        <small class="text-muted d-block" style="font-size: 0.8rem;">
+                                            {{ item.detalle }}
+                                        </small>
+                                        <small class="text-muted" style="font-size: 0.75rem;">Cant: {{ item.cantidad }}</small>
+                                    </div>
+                                </div>
+                                <span class="text-muted small fw-bold">${{ item.precio }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if carrito.obtener_descuento > 0 %}
+                        <div class="d-flex justify-content-between text-success small mb-2">
+                            <span>Descuento aplicado</span>
+                            <span>-${{ carrito.obtener_descuento }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-4 border-bottom border-top pt-3">
+                        <span class="text-uppercase small fw-bold" style="letter-spacing: 1px;">Total a Pagar</span>
+                        <span class="fuente-serif h3 mb-0" style="color: var(--color-marron);">${{ carrito.obtener_total }}</span>
                     </div>
 
                     <form method="POST">
@@ -128,7 +166,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-confirm shadow-sm">
-                            Confirmar Pedido <i class="fas fa-arrow-right ms-2"></i>
+                            Confirmar Pedido <i class="fab fa-whatsapp ms-2"></i>
                         </button>
                     </form>
 

@@ -81,6 +81,15 @@
 
         @media (max-width: 768px) { .hero-wrap { flex-direction: column-reverse; } .hero-text { padding: 40px 20px; text-align: center; align-items: center; } .hero-image { min-height: 50vh; } .titulo-grande { font-size: 3rem; } .newsletter-input { margin-bottom: 10px; } .navbar-brand { font-size: 1.3rem; } }
     </style>
+    <style>
+    .btn-check:checked + .btn-outline-secondary,
+    .btn-check:checked + .btn-outline-dark {
+        background-color: var(--color-marron) !important;
+        color: white !important;
+        border-color: var(--color-marron) !important;
+    }
+    </style>
+
 </head>
 <body>
 <!-- 
@@ -425,7 +434,7 @@
                             <span class="badge bg-dark text-white position-absolute top-0 start-0 m-4 py-2 px-3" style="z-index: 20; letter-spacing: 2px; border-radius: 0;">NUEVO</span>
                         {% endif %}
 
-                        {% if producto.imagenes_extra.exists %}
+                        {% if producto.imagenes.exists %}
                             
                             <div id="carousel{{ producto.id }}" class="carousel slide w-100 h-100" data-bs-ride="carousel">
                                 <div class="carousel-inner w-100 h-100">
@@ -436,7 +445,7 @@
                                         {% endif %}
                                     </div>
 
-                                    {% for foto in producto.imagenes_extra.all %}
+                                    {% for foto in producto.imagenes.all %}
                                     <div class="carousel-item w-100 h-100">
                                         <img src="{{ foto.imagen.url }}" class="d-block w-100 h-100" style="object-fit: contain; max-height: 70vh;" alt="Vista extra">
                                     </div>
@@ -455,9 +464,12 @@
                         {% else %}
                             <div class="p-3 w-100 h-100 d-flex align-items-center justify-content-center">
                                 {% if producto.imagen %}
-                                    <img src="{{ producto.imagen.url }}" class="img-fluid" style="max-height: 70vh; width: auto; {% if producto.stock == 0 %}filter: grayscale(100%); opacity: 0.6;{% endif %}" alt="{{ producto.nombre }}">
+                                    <img src="{{ producto.imagen.url }}" class="img-fluid" style="max-height: 70vh; width: auto; {% if producto.get_stock_total == 0 %}filter: grayscale(100%); opacity: 0.6;{% endif %}" alt="{{ producto.nombre }}">
                                 {% else %}
-                                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=60" class="img-fluid" style="max-height: 70vh;" alt="Sin imagen">
+                                    <div class="d-flex flex-column align-items-center text-muted">
+                                        <i class="far fa-image fa-3x mb-2"></i>
+                                        <span>Sin imagen</span>
+                                    </div>
                                 {% endif %}
                             </div>
                         {% endif %}
@@ -481,7 +493,7 @@
                                 <span class="display-6 me-3" style="font-weight: 500;">${{ producto.precio }}</span>
                             {% endif %}
 
-                            {% if producto.stock > 0 %}
+                            {% if producto.get_stock_total > 0 %}
                                 <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success px-3">
                                     <i class="fas fa-check-circle me-1"></i> En Stock
                                 </span>
@@ -498,40 +510,77 @@
                             {{ producto.descripcion|safe }}
                         </p>
 
-                        {% if producto.talles %}
-                        <div class="mb-5">
-                            <small class="text-uppercase fw-bold text-dark d-block mb-2">Talles:</small>
-                            <span class="border border-secondary px-4 py-2 text-dark d-inline-block">
-                                {{ producto.talles }}
-                            </span>
-                        </div>
-                        {% endif %}
+                        <form action="{% url 'agregar_carrito' producto.id %}" method="POST">
+                            {% csrf_token %}
+                            {% if producto.get_stock_total > 0 %}
+                                
+                                <div class="mb-3">
+                                    <label class="form-label text-uppercase fw-bold small text-muted mb-2" style="letter-spacing: 1px;">Color:</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {# Agrupamos variantes por color para no repetir botones #}
+                                        {% regroup producto.variantes.all|dictsort:"color.nombre" by color as colores_list %}
+                                        
+                                        {% for color_group in colores_list %}
+                                            <input type="radio" class="btn-check" name="color_id" id="color_{{ producto.id }}_{{ color_group.grouper.id }}" value="{{ color_group.grouper.id }}" required>
+                                            <label class="btn btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" 
+                                                for="color_{{ producto.id }}_{{ color_group.grouper.id }}" 
+                                                style="width: 35px; height: 35px; border-color: #ddd;"
+                                                title="{{ color_group.grouper.nombre }}">
+                                                
+                                                {% if color_group.grouper.codigo_hex %}
+                                                    <span class="rounded-circle" style="width: 25px; height: 25px; background-color: {{ color_group.grouper.codigo_hex }}; border: 1px solid rgba(0,0,0,0.1);"></span>
+                                                {% else %}
+                                                    <span class="small fw-bold">{{ color_group.grouper.nombre|slice:":1" }}</span>
+                                                {% endif %}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="form-text small mt-1" id="nombreColorSeleccionado{{ producto.id }}">Elige un color</div>
+                                </div>
 
-                        {% if producto.stock > 0 %}
-                            <a href="{% url 'agregar_carrito' producto.id %}" 
-                               class="btn-aura w-100 text-center py-3 text-decoration-none" 
-                               style="background-color: var(--color-marron); color: white; letter-spacing: 2px; display: block;">
-                                AGREGAR AL CARRITO <i class="fas fa-shopping-bag ms-2"></i>
-                            </a>
-                            
-                            {% if producto.stock <= 3 %}
-                                <div class="text-center mt-2">
-                                    <small class="text-danger fw-bold animation-pulse">
-                                        <i class="fas fa-fire"></i> ¡Apúrate! Solo quedan {{ producto.stock }} unidades.
-                                    </small>
+                                <div class="mb-4">
+                                    <label class="form-label text-uppercase fw-bold small text-muted mb-2" style="letter-spacing: 1px;">Talle:</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {# Agrupamos variantes por talle para no repetir #}
+                                        {% regroup producto.variantes.all|dictsort:"talle.id" by talle as talles_list %}
+                                        
+                                        {% for talle_group in talles_list %}
+                                            <input type="radio" class="btn-check" name="talle_id" id="talle_{{ producto.id }}_{{ talle_group.grouper.id }}" value="{{ talle_group.grouper.id }}" required>
+                                            <label class="btn btn-outline-dark rounded-0 px-3 py-1 shadow-sm" 
+                                                for="talle_{{ producto.id }}_{{ talle_group.grouper.id }}" 
+                                                style="font-size: 0.9rem;">
+                                                {{ talle_group.grouper.nombre }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <button type="submit" 
+                                class="btn-aura w-100 text-center py-3 text-decoration-none border-0 shadow-sm" 
+                                style="background-color: var(--color-marron); color: white; letter-spacing: 2px; display: block; cursor: pointer;">
+                                    AGREGAR AL CARRITO <i class="fas fa-shopping-bag ms-2"></i>
+                                </button>
+                                
+                                {% if producto.get_stock_total <= 3 %}
+                                    <div class="text-center mt-2">
+                                        <small class="text-danger fw-bold animation-pulse">
+                                            <i class="fas fa-fire"></i> ¡Apúrate! Quedan muy pocas unidades.
+                                        </small>
+                                    </div>
+                                {% endif %}
+
+                            {% else %}
+                                <button type="button" class="btn btn-secondary w-100 py-3 text-uppercase" disabled style="letter-spacing: 2px; cursor: not-allowed; opacity: 0.6;">
+                                    Producto Agotado
+                                </button>
+                                <div class="text-center mt-3">
+                                    <a href="https://wa.me/5491100000000?text=Hola Aura, vi que el {{ producto.nombre }} está agotado. ¿Cuándo vuelve?" 
+                                    class="text-muted small text-decoration-underline" target="_blank">
+                                        Avísame cuando vuelva
+                                    </a>
                                 </div>
                             {% endif %}
-                        {% else %}
-                            <button class="btn btn-secondary w-100 py-3 text-uppercase" disabled style="letter-spacing: 2px; cursor: not-allowed; opacity: 0.6;">
-                                Producto Agotado
-                            </button>
-                            <div class="text-center mt-3">
-                                <a href="https://wa.me/543834084055?text=Hola Aura, vi que el {{ producto.nombre }} está agotado. ¿Cuándo vuelve?" 
-                                   class="text-muted small text-decoration-underline">
-                                    Avísame cuando vuelva
-                                </a>
-                            </div>
-                        {% endif %}
+                        </form>
 
                         {% with relacionados=producto.get_relacionados %}
                             {% if relacionados %}
@@ -566,7 +615,7 @@
             </div>
         </div>
     </div>
-    {% endfor %}
+{% endfor %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
